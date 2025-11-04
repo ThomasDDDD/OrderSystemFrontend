@@ -1,0 +1,69 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400..900&display=swap");
+
+:root {
+  /* Colors Lightmode */
+  --text-color: #353535;
+  --text-color-rev: #d8e8f3;
+  --text-color-white: #d8e8f3;
+  --text-color-dark: #0c1c27;
+  --text-color-75: #0c1c27bf;
+  --shadow-color: #0c1c2765;
+  --background-main: #e2e6e9;
+  --background-main-80: #e2e6e9cc;
+  --background-main-40: #e2e6e966;
+  --background-rev: #111827;
+  --background-second: #ecf6fd;
+  --input-primary: #f9fafb;
+  --primary-color-100: #244b70;
+  --primary-color-50: #244b7081;
+  --secondary-color-100: #a178d3;
+  --secondary-color-50: #a178d381;
+  --accent-color-100: #983cb9;
+  --accent-color-50: #983cb981;
+
+  --link-color: #0084ff;
+
+  /* Fonts */
+  --standard-font: Roboto, sans-serif;
+  --accent-font: Lora, sans-serif;
+  --style-font: Orbitron, sans-serif;
+
+  /* Font-Size */
+  --font-size-standard: clamp(1rem, 3vw, 1.3rem);
+  --font-size-largerStandard: clamp(1rem, 3vw, 2.5rem);
+  --font-size-nav: clamp(1.2rem, 3vw, 2.5rem);
+  --font-size-sub-nav: clamp(1rem, 3vw, 1.8rem);
+  --font-size-large: clamp(1.5rem, 4vw, 3rem);
+  --font-size-headline: clamp(2rem, 5vw, 4rem);
+  --font-size-headline-XXXL: clamp(5rem, 10vw, 12rem);
+  --font-size-XXXL: clamp(4rem, 10vw, 8rem);
+
+  /* Border-Radius */
+  --standard-border-radius: 8px;
+}
+
+.dark {
+  /* Colors Darkmode */
+  --text-color: #d8e8f3;
+  --text-color-rev: #353535;
+  --text-color-white: #d8e8f3;
+  --text-color-dark: #0c1c27;
+  --text-color-75: #d8e8f3bf;
+  --shadow-color: #c2c5c965;
+  --background-main: #111827;
+  --background-main-80: #111827cc;
+  --background-main-40: #11182766;
+  --background-rev: #e2e6e9;
+  --background-second: #1f2937;
+  --input-primary: #374151;
+  --primary-color-100: #8fb6db;
+  --primary-color-50: #8fb6db81;
+  --secondary-color-100: #552c87;
+  --secondary-color-50: #552c8781;
+  --accent-color-100: #a246c3;
+  --accent-color-50: #a246c381;
+
+  --link-color: #8fb6db;
+}

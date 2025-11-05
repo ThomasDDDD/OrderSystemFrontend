@@ -271,7 +271,32 @@ const OrderSystemApp = () => {
             <div className="flex flex-col items-start justify-between p-4 border-l col-span-1 h-full ">
               <div className="overflow-auto">Liste hier</div>
               <div className="w-full  ">
-                <p className="text-end">Preis: 123 €</p>
+                <div className="w-full grid grid-cols-3  w-[100%] h-min ">
+                  <p className=" col-span-1 flex item-center justify-center ">
+                    Gesamt:
+                  </p>
+                  <p className="col-span-1 flex item-center justify-center ">
+                    IST
+                  </p>
+                  <p className="text-end col-span-1 flex item-center justify-center ">
+                    Rückgeld:
+                  </p>
+                </div>
+
+                <div className="w-full grid grid-cols-3  w-[100%] ">
+                  <p className=" col-span-1 flex item-center justify-center  py-2">
+                    123 €
+                  </p>
+                  <input
+                    type="number"
+                    placeholder="Eingabe"
+                    className="col-span-1 px-2 py-1 rounded-md border flex items-center justify-center text-center"
+                  />
+                  <p className="text-end col-span-1 flex item-center justify-center  py-2">
+                    0 €
+                  </p>
+                </div>
+
                 <button
                   type="button"
                   className="mt-2 cursor-pointer w-[100%] h-[50px] rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) "

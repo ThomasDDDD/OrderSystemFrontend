@@ -4,7 +4,7 @@ export const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
   const [newOrderPopUp, setNewOrderPopUp] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("pending");
 
   const APIKEY = import.meta.env.VITE_API_KEY;
   const URL = import.meta.env.VITE_BACKEND_URL;

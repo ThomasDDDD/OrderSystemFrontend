@@ -123,114 +123,120 @@ const OrderSystemApp = () => {
   };
 
   useEffect(() => {
-    let url = `&sort=${orderSort}&sortOrder=${orderSortOrder}`;
-    if (status) {
-      url += `&status=${status}`;
-    }
-    if (orderSearch) {
-      url += `&search=${orderSearch}`;
-    }
-
-    const getOrders = async () => {
-      try {
-        const response = await fetch(
-          `${URL}/order/getOrders?page=${orderPage}&limit=${orderLimit}&${url}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "Application/json",
-              "api-key": APIKEY,
-            },
-            credentials: "include",
-          }
-        );
-        const data = await response.json();
-
-        if (response.status === 404) {
-          return;
-        } else if (response.status !== 200) {
-          console.log("load orders failed!");
-        } else {
-          setOrdersData(data.orders);
-          setOrderMaxPage(data.totalPages);
-          setTotalOrders(data.totalOrders);
-        }
-      } catch (error) {
-        console.log(error);
+    if (user && isLoggedIn) {
+      let url = `&sort=${orderSort}&sortOrder=${orderSortOrder}`;
+      if (status) {
+        url += `&status=${status}`;
       }
-    };
-    getOrders();
+      if (orderSearch) {
+        url += `&search=${orderSearch}`;
+      }
+
+      const getOrders = async () => {
+        try {
+          const response = await fetch(
+            `${URL}/order/getOrders?page=${orderPage}&limit=${orderLimit}&${url}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "Application/json",
+                "api-key": APIKEY,
+              },
+              credentials: "include",
+            }
+          );
+          const data = await response.json();
+
+          if (response.status === 404) {
+            return;
+          } else if (response.status !== 200) {
+            console.log("load orders failed!");
+          } else {
+            setOrdersData(data.orders);
+            setOrderMaxPage(data.totalPages);
+            setTotalOrders(data.totalOrders);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getOrders();
+    }
   }, [status, reload]);
 
   useEffect(() => {
-    let url = `&sort=${productSort}&sortOrder=${productSortOrder}`;
-    if (category) {
-      url += `&category=${category}`;
-    }
-    if (available) {
-      url += `&available=${available}`;
-    }
-    if (productSearch) {
-      url += `&search=${productSearch}`;
-    }
-    const getProducts = async () => {
-      try {
-        const response = await fetch(
-          `${URL}/product/getProducts?page=${productPage}&limit=${productLimit}&${url}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "Application/json",
-              "api-key": APIKEY,
-            },
-            credentials: "include",
-          }
-        );
-        const data = await response.json();
-        if (response.status === 404) {
-          return;
-        } else if (response.status !== 200) {
-          console.log("load tasks failed!");
-        } else {
-          setProductsData(data.products);
-          setProductMaxPage(data.totalPages);
-          setTotalProducts(data.totalProducts);
-        }
-      } catch (error) {
-        console.log(error);
+    if (user && isLoggedIn) {
+      let url = `&sort=${productSort}&sortOrder=${productSortOrder}`;
+      if (category) {
+        url += `&category=${category}`;
       }
-    };
-    getProducts();
-  }, []);
+      if (available) {
+        url += `&available=${available}`;
+      }
+      if (productSearch) {
+        url += `&search=${productSearch}`;
+      }
+      const getProducts = async () => {
+        try {
+          const response = await fetch(
+            `${URL}/product/getProducts?page=${productPage}&limit=${productLimit}&${url}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "Application/json",
+                "api-key": APIKEY,
+              },
+              credentials: "include",
+            }
+          );
+          const data = await response.json();
+          if (response.status === 404) {
+            return;
+          } else if (response.status !== 200) {
+            console.log("load tasks failed!");
+          } else {
+            setProductsData(data.products);
+            setProductMaxPage(data.totalPages);
+            setTotalProducts(data.totalProducts);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getProducts();
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
-    const updateOrder = async () => {
-      try {
-        const respone = await fetch(
-          `${URL}/order/updateOrder/${orderToUpdate._id}`,
-          {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "Application/json",
-              "api-key": APIKEY,
-            },
-            credentials: "include",
-            body: JSON.stringify({ products: orderToUpdate.products }),
-          }
-        );
-        const data = await respone.json();
+    if (user && isLoggedIn) {
+      const updateOrder = async () => {
+        try {
+          const respone = await fetch(
+            `${URL}/order/updateOrder/${orderToUpdate._id}`,
+            {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "Application/json",
+                "api-key": APIKEY,
+              },
+              credentials: "include",
+              body: JSON.stringify({ products: orderToUpdate.products }),
+            }
+          );
+          const data = await respone.json();
 
-        if (respone.status !== 200) {
-          console.log("Update Order failed!");
-        } else {
-          console.log("Update Order successfully!");
-          setReload(!reload);
+          if (respone.status !== 200) {
+            console.log("Update Order failed!");
+          } else {
+            console.log("Update Order successfully!");
+            setReload(!reload);
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    updateOrder();
+      };
+      updateOrder();
+    }
   }, [orderToUpdate]);
 
   /* debugging Log */

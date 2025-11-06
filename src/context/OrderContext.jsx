@@ -4,12 +4,15 @@ export const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
   const [newOrderPopUp, setNewOrderPopUp] = useState(false);
+  const [status, setStatus] = useState("");
 
   const APIKEY = import.meta.env.VITE_API_KEY;
   const URL = import.meta.env.VITE_BACKEND_URL;
 
   return (
-    <OrderContext.Provider value={{ newOrderPopUp, setNewOrderPopUp }}>
+    <OrderContext.Provider
+      value={{ newOrderPopUp, setNewOrderPopUp, status, setStatus }}
+    >
       {children}
     </OrderContext.Provider>
   );

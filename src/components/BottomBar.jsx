@@ -5,7 +5,8 @@ import { OrderContext } from "../context/OrderContext.jsx";
 
 const BottomBar = () => {
   const { isLoggedIn } = useContext(AuthContext);
-  const { newOrderPopUp, setNewOrderPopUp } = useContext(OrderContext);
+  const { newOrderPopUp, setNewOrderPopUp, status, setStatus } =
+    useContext(OrderContext);
 
   return (
     <nav
@@ -19,10 +20,10 @@ const BottomBar = () => {
                 className="hover:underline  text-(length:--font-size-sub-nav) font-(family-name:--style-font) transition-all duration-500 ease-in-out hover:text-[var(--accent-color-100)]"
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log("irgendwas auslösen 1");
+                  setStatus("pending");
                 }}
               >
-                Button 1
+                Offen
               </a>
             </li>
             <li className="w-[25%] md:w-[20%] text-center cursor-pointer px-2 py-1 border border-[var(--text-color)]">
@@ -30,10 +31,10 @@ const BottomBar = () => {
                 className="hover:underline  text-(length:--font-size-sub-nav) font-(family-name:--style-font) transition-all duration-500 ease-in-out hover:text-[var(--accent-color-100)]"
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log("irgendwas auslösen 2");
+                  setStatus("completed");
                 }}
               >
-                Button 2
+                Fertig
               </a>
             </li>
 
@@ -42,7 +43,7 @@ const BottomBar = () => {
                 className=" hover:underline cursor-pointer text-(length:--font-size-XXXL) font-(family-name:--style-font) absolute translate-y-[-120%] md:translate-y-[-60%] translate-x-[-50%] hover:scale-[120%] transition-all duration-500 ease-in-out "
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log("neue Bestellung Popup öffnen");
+
                   setNewOrderPopUp(!newOrderPopUp);
                 }}
               >
@@ -56,10 +57,10 @@ const BottomBar = () => {
                 className="hover:underline  text-(length:--font-size-sub-nav) font-(family-name:--style-font) transition-all duration-500 ease-in-out hover:text-[var(--accent-color-100)]"
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log("irgendwas auslösen 3");
+                  setStatus("");
                 }}
               >
-                Button 3
+                Alle
               </a>
             </li>
 

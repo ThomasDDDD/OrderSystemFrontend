@@ -21,7 +21,7 @@ const OrderSystemApp = () => {
   const [productLimit, setProductLimit] = useState(31);
   const [productMaxPage, setProductMaxPage] = useState(1);
 
-  const [productSort, setProductSort] = useState("productCategory");
+  const [productSort, setProductSort] = useState("productName");
   const [productSortOrder, setProductSortOrder] = useState(1);
   const [available, setAvailable] = useState(true);
   const [category, setCategory] = useState(null);
@@ -48,6 +48,14 @@ const OrderSystemApp = () => {
 
   //! One Order Details
   const [orderToUpdate, setOrderToUpdate] = useState(null);
+
+  //! New Order
+
+  const [newOrder, setNewOrder] = useState({
+    products: [],
+    price: 0,
+  });
+  const [inputMoney, setInputMoney] = useState(0);
 
   const APIKEY = import.meta.env.VITE_API_KEY;
   const URL = import.meta.env.VITE_BACKEND_URL;
@@ -84,106 +92,35 @@ const OrderSystemApp = () => {
     };
   }, []);
 
-  //
-  // const handleNewTask = async (e) => {
-  //   e.preventDefault();
-  //   const { dueStart, dueEnd } = newTask;
-
-  //   const startDate = new Date(dueStart);
-  //   const computedDueEnd = dueEnd
-  //     ? new Date(dueEnd)
-  //     : new Date(startDate.getTime() + 15 * 60 * 1000);
-
-  //   const taskToSubmit = {
-  //     ...newTask,
-  //     taskName: newTask.taskName.trim(),
-  //     description: newTask.description.trim(),
-  //     dueStart: startDate,
-  //     dueEnd: computedDueEnd,
-  //   };
-
-  //   try {
-  //     const response = await fetch(`${URL}/tasks/createTask`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "Application/json",
-  //         "api-key": APIKEY,
-  //       },
-  //       credentials: "include",
-  //       body: JSON.stringify(taskToSubmit),
-  //     });
-  //     const data = await response.json();
-
-  //     if (response.status !== 201) {
-  //       toast.error("Create Task failed!");
-  //     } else {
-  //       setNewTask({
-  //         taskCategory: "",
-  //         colorId: "",
-  //         taskName: "",
-  //         description: "",
-  //         priority: "",
-  //         dueStart: "",
-  //         dueEnd: "",
-  //         bulletPoints: [],
-  //       });
-  //       toast.success("Add Task successfully!");
-  //       setReload(!reload);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  //   setNewTaskPopUp(false);
-  //   console.log(taskToSubmit);
-  // };
-
-  // const handleTaskUpdate = async (e) => {
-  //   e.preventDefault();
-
-  //   const taskToUpdate = {
-  //     ...updateTask,
-  //     taskName: updateTask.taskName.trim(),
-  //     description: updateTask.description.trim(),
-  //   };
-
-  //   try {
-  //     const response = await fetch(
-  //       `${URL}/tasks/updateTask/${taskIdToUpdate}`,
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "Application/json",
-  //           "api-key": APIKEY,
-  //         },
-  //         credentials: "include",
-  //         body: JSON.stringify(taskToUpdate),
-  //       }
-  //     );
-  //     const data = await response.json();
-
-  //     if (response.status !== 200) {
-  //       toast.error("update Task failed!");
-  //     } else {
-  //       setUpdateTask({
-  //         taskName: "",
-  //         description: "",
-  //         priority: "",
-  //         dueStart: "",
-  //         dueEnd: "",
-  //         bulletPoints: [],
-  //         isCompleted: "",
-  //       });
-  //       setTaskIdToUpdate("");
-  //       setUpdateTaskPopUp(false);
-
-  //       toast.success("Update Task successfully!");
-  //       setReload(!reload);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const sendNewOrder = async () => {
+    try {
+      console.log(newOrder);
+      const response = await fetch(`${URL}/order/createOrder`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "Application/json",
+          "api-key": APIKEY,
+        },
+        credentials: "include",
+        body: JSON.stringify({ products: newOrder.products }),
+      });
+      const data = await response.json();
+      if (response.status !== 201) {
+        console.log("Create Order failed!");
+      } else {
+        setNewOrder({
+          products: [],
+          price: 0,
+        });
+        setInputMoney(0);
+        console.log("Add Order successfully!");
+        setReload(!reload);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setNewOrderPopUp(false);
+  };
 
   useEffect(() => {
     let url = `&sort=${orderSort}&sortOrder=${orderSortOrder}`;
@@ -321,6 +258,10 @@ const OrderSystemApp = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setNewOrderPopUp(false);
+                  setNewOrder({
+                    products: [],
+                    price: 0,
+                  });
                 }}
               >
                 X
@@ -336,8 +277,25 @@ const OrderSystemApp = () => {
                     (product) =>
                       product.productCategory === "Getraenke" && (
                         <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setNewOrder({
+                              ...newOrder,
+                              products: [
+                                ...newOrder.products,
+                                {
+                                  productName: product.productName,
+                                  product: product._id,
+                                  productPrice: product.productPrice,
+                                },
+                              ],
+                              price:
+                                Number(newOrder.price) +
+                                Number(product.productPrice),
+                            });
+                          }}
                           key={product._id}
-                          className={`border p-2 rounded-md h-24 flex flex-col items-center justify-center ${
+                          className={`border cursor-pointer relative p-2 rounded-md h-24 flex flex-col items-center justify-center ${
                             product.imgUrl
                               ? "bg-contain bg-center bg-no-repeat"
                               : ""
@@ -348,10 +306,20 @@ const OrderSystemApp = () => {
                               : undefined
                           }
                         >
-                          <h3 className="font-bold mb-2 text-center">
+                          <div
+                            className={`absolute inset-0  transition`}
+                            style={
+                              product.productName.startsWith("Glühwein", 0)
+                                ? { backgroundColor: "var(--product-1-color)" }
+                                : product.productName.endsWith("punsch")
+                                ? { backgroundColor: "var(--product-2-color)" }
+                                : { backgroundColor: "var(--product-3-color)" }
+                            }
+                          ></div>
+                          <h3 className="font-bold z-2 mb-2 text-center bg-(color:--background-main-80) px-1 rounded">
                             {product.productName}
                           </h3>
-                          <p className="mb-2 text-center">
+                          <p className="mb-2 font-semibold z-3 text-center bg-(color:--background-main-80) px-1 rounded">
                             Preis: {formatPrice(Number(product.productPrice))}
                           </p>
                         </div>
@@ -364,13 +332,49 @@ const OrderSystemApp = () => {
                     (product) =>
                       product.productCategory === "Herzhaftes" && (
                         <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setNewOrder({
+                              ...newOrder,
+                              products: [
+                                ...newOrder.products,
+                                {
+                                  productName: product.productName,
+                                  product: product._id,
+                                  productPrice: product.productPrice,
+                                },
+                              ],
+                              price:
+                                Number(newOrder.price) +
+                                Number(product.productPrice),
+                            });
+                          }}
                           key={product._id}
-                          className="border p-2 rounded-md h-24 flex flex-col items-center justify-center"
+                          className={`border cursor-pointer relative p-2 rounded-md h-24 flex flex-col items-center justify-center ${
+                            product.imgUrl
+                              ? "bg-contain bg-center bg-no-repeat"
+                              : ""
+                          }`}
+                          style={
+                            product.imgUrl
+                              ? { backgroundImage: `url(${product.imgUrl})` }
+                              : undefined
+                          }
                         >
-                          <h3 className="font-bold mb-2 text-center">
+                          <div
+                            className={`absolute inset-0  transition`}
+                            style={
+                              product.productName.startsWith("Waffel", 0)
+                                ? { backgroundColor: "var(--product-1-color)" }
+                                : product.productName.startsWith("Crepe", 0)
+                                ? { backgroundColor: "var(--product-2-color)" }
+                                : { backgroundColor: "var(--product-3-color)" }
+                            }
+                          ></div>
+                          <h3 className="font-bold z-2 mb-2 text-center bg-(color:--background-main-80) px-1 rounded">
                             {product.productName}
                           </h3>
-                          <p className="mb-2 text-center">
+                          <p className="mb-2 font-semibold z-3 text-center bg-(color:--background-main-80) px-1 rounded">
                             Preis: {formatPrice(Number(product.productPrice))}
                           </p>
                         </div>
@@ -383,13 +387,49 @@ const OrderSystemApp = () => {
                     (product) =>
                       product.productCategory === "Sueßes" && (
                         <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setNewOrder({
+                              ...newOrder,
+                              products: [
+                                ...newOrder.products,
+                                {
+                                  productName: product.productName,
+                                  product: product._id,
+                                  productPrice: product.productPrice,
+                                },
+                              ],
+                              price:
+                                Number(newOrder.price) +
+                                Number(product.productPrice),
+                            });
+                          }}
                           key={product._id}
-                          className="border p-2 rounded-md h-24 flex flex-col items-center justify-center"
+                          className={`border cursor-pointer relative p-2 rounded-md h-24 flex flex-col items-center justify-center ${
+                            product.imgUrl
+                              ? "bg-contain bg-center bg-no-repeat"
+                              : ""
+                          }`}
+                          style={
+                            product.imgUrl
+                              ? { backgroundImage: `url(${product.imgUrl})` }
+                              : undefined
+                          }
                         >
-                          <h3 className="font-bold mb-2 text-center">
+                          <div
+                            className={`absolute inset-0  transition`}
+                            style={
+                              product.productName.startsWith("Waffel", 0)
+                                ? { backgroundColor: "var(--product-1-color)" }
+                                : product.productName.startsWith("Crepe", 0)
+                                ? { backgroundColor: "var(--product-2-color)" }
+                                : { backgroundColor: "var(--product-3-color)" }
+                            }
+                          ></div>
+                          <h3 className="font-bold z-2 mb-2 text-center bg-(color:--background-main-80) px-1 rounded">
                             {product.productName}
                           </h3>
-                          <p className="mb-2 text-center">
+                          <p className="mb-2 font-semibold z-3 text-center bg-(color:--background-main-80) px-1 rounded">
                             Preis: {formatPrice(Number(product.productPrice))}
                           </p>
                         </div>
@@ -398,8 +438,18 @@ const OrderSystemApp = () => {
                 </div>
               </div>
             )}
+
+            {/* New Order viewer */}
             <div className="flex flex-col items-start justify-between p-4 border-l col-span-1 h-full ">
-              <div className="overflow-auto">Liste hier</div>
+              <div className="overflow-auto">
+                {newOrder && newOrder.products.length > 0 ? (
+                  <div className="grid grid-cols-1 md:max-h-[60vh] overflow-auto w-full ">
+                    <OrderComponent orderToUpdate={newOrder} />
+                  </div>
+                ) : (
+                  <div className="py-2">Keine Produkte ausgewählt</div>
+                )}
+              </div>
               <div className="w-full  ">
                 <div className="w-full grid grid-cols-3  w-[100%] h-min ">
                   <p className=" col-span-1 flex item-center justify-center ">
@@ -415,20 +465,35 @@ const OrderSystemApp = () => {
 
                 <div className="w-full grid grid-cols-3  w-[100%] ">
                   <p className=" col-span-1 flex item-center justify-center  py-2">
-                    123 €
+                    {formatPrice(Number(newOrder.price))}
                   </p>
                   <input
                     type="number"
                     placeholder="Eingabe"
+                    onFocus={(e) => {
+                      e.target.select();
+                    }}
+                    value={inputMoney}
                     className="col-span-1 px-2 py-1 rounded-md border flex items-center justify-center text-center"
+                    onChange={(e) => {
+                      e.preventDefault();
+                      setInputMoney(Number(e.target.value));
+                    }}
                   />
                   <p className="text-end col-span-1 flex item-center justify-center  py-2">
-                    0 €
+                    {(() => {
+                      const diff = Number(inputMoney) - Number(newOrder.price);
+                      return diff >= 0 ? formatPrice(diff) : "0 €";
+                    })()}
                   </p>
                 </div>
 
                 <button
                   type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sendNewOrder();
+                  }}
                   className="mt-2 cursor-pointer w-[100%] h-[50px] rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) "
                 >
                   Bestellen
@@ -480,7 +545,7 @@ const OrderSystemApp = () => {
                       <p className="font-semibold col-span-1 text-end">
                         Preis: {formatPrice(Number(order.price))}
                       </p>
-                      <div className="col-span-2 mt-2 flex flex-row gap-2 p-2 bg-zinc-800">
+                      <div className="col-span-2 mt-2 flex flex-row flex-wrap gap-2 p-2 bg-zinc-800">
                         {order.products.map((product, index) => (
                           <div
                             key={index}

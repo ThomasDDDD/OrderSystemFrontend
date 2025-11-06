@@ -1,3 +1,5 @@
+import { set } from "date-fns";
+
 const OrderComponent = ({ orderToUpdate, setOrderToUpdate }) => {
   // Gruppiere Produkte nach productName
   const groupedProducts =
@@ -11,27 +13,29 @@ const OrderComponent = ({ orderToUpdate, setOrderToUpdate }) => {
 
   // Klick-Handler: Ändere Status des ersten pending Produkts
   const handleProductClick = (productName) => {
-    setOrderToUpdate((prevOrder) => {
-      const updatedProducts = [...prevOrder.products];
-      let changed = false;
+    if (setOrderToUpdate) {
+      setOrderToUpdate((prevOrder) => {
+        const updatedProducts = [...prevOrder.products];
+        let changed = false;
 
-      const newProducts = updatedProducts.map((product) => {
-        if (
-          !changed &&
-          product.productName === productName &&
-          product.status === "pending"
-        ) {
-          changed = true;
-          return { ...product, status: "completed" };
-        }
-        return product;
+        const newProducts = updatedProducts.map((product) => {
+          if (
+            !changed &&
+            product.productName === productName &&
+            product.status === "pending"
+          ) {
+            changed = true;
+            return { ...product, status: "completed" };
+          }
+          return product;
+        });
+
+        return {
+          ...prevOrder,
+          products: newProducts,
+        };
       });
-
-      return {
-        ...prevOrder,
-        products: newProducts,
-      };
-    });
+    }
   };
 
   if (!orderToUpdate) return null;
@@ -48,26 +52,34 @@ const OrderComponent = ({ orderToUpdate, setOrderToUpdate }) => {
         return (
           <div
             key={productName}
-            onClick={() => handleProductClick(productName)}
+            onClick={(e) => {
+              e.preventDefault();
+              if (setOrderToUpdate) {
+                handleProductClick(productName);
+              }
+            }}
             className={`p-3  gap-4 cursor-pointer transition  text-(--text-color-dark) ${
               completedCount === totalCount
                 ? "bg-green-600 border-green-300"
                 : completedCount > 0 && completedCount < totalCount
                 ? "bg-yellow-500 hover:bg-gray-50"
-                : "bg-red-500 hover:bg-gray-50"
+                : !setOrderToUpdate
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-red-400 hover:bg-gray-50"
             }`}
           >
             <div className=" grid grid-cols-3 text-(--text-color-dark)">
               <span className="font-semibold col-span-1">{productName}</span>
               <div className="flex items-center gap-2 col-span-2 grid grid-cols-2">
-                {pendingCount > 0 && (
+                {pendingCount > 0 && setOrderToUpdate && (
                   <span className="col-span-1 text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded text-center">
                     {pendingCount} offen
                   </span>
                 )}
-                {pendingCount === 0 && (
-                  <span className="col-span-1 text-xs px-2 py-1 rounded text-center"></span>
-                )}
+                {pendingCount === 0 ||
+                  (!setOrderToUpdate && (
+                    <span className="col-span-1 text-xs px-2 py-1 rounded text-center"></span>
+                  ))}
                 <span className="text-sm font-medium col-span-1 text-end pr-4">
                   {completedCount}/{totalCount}
                 </span>

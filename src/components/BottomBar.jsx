@@ -72,7 +72,7 @@ const BottomBar = () => {
               }}
             >
               <a className="hover:underline text-(length:--font-size-sub-nav) font-(family-name:--style-font) transition-all duration-500 ease-in-out hover:text-[var(--accent-color-100)]">
-                Button 4
+                leer
               </a>
             </li>
           </ul>

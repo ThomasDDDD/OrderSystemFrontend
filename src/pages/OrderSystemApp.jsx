@@ -516,7 +516,7 @@ const OrderSystemApp = () => {
 
       {/* main Container */}
 
-      <div className="flex flex-col items-center justify-start h-[82vh] sm:h-[83vh] w-full p-2 mx-auto ">
+      <div className="flex flex-col items-center justify-start h-[80vh] sm:h-[83vh] w-full p-2 mx-auto ">
         {!isLoggedIn && <LogInReg />}
         {isLoggedIn && user && (
           <>

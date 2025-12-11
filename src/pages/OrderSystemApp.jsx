@@ -241,11 +241,11 @@ const OrderSystemApp = () => {
 
   /* debugging Log */
 
-  useEffect(() => {
-    console.log(productsData);
-    console.log(ordersData);
-    console.log(orderToUpdate);
-  }, [productsData, ordersData, orderToUpdate]);
+  // useEffect(() => {
+  //   console.log(productsData);
+  //   console.log(ordersData);
+  //   console.log(orderToUpdate);
+  // }, [productsData, ordersData, orderToUpdate]);
 
   return (
     <div className="bg-[var(--background-main)] text-(--text-color) min-h-screen relative pb-16 ">
@@ -447,10 +447,14 @@ const OrderSystemApp = () => {
 
             {/* New Order viewer */}
             <div className="flex flex-col items-start justify-between p-4 border-l col-span-1 h-full ">
-              <div className="overflow-auto">
+              <div className="overflow-auto w-full">
                 {newOrder && newOrder.products.length > 0 ? (
-                  <div className="grid grid-cols-1 md:max-h-[60vh] overflow-auto w-full ">
-                    <OrderComponent orderToUpdate={newOrder} />
+                  <div className="flex flex-col md:max-h-[60vh] overflow-auto w-full  ">
+                    <OrderComponent
+                      orderToUpdate={newOrder}
+                      setOrderToUpdate={setNewOrder}
+                      which="newOrder"
+                    />
                   </div>
                 ) : (
                   <div className="py-2">Keine Produkte ausgewählt</div>
@@ -537,7 +541,7 @@ const OrderSystemApp = () => {
                       className={` grid grid-cols-2 p-4 cursor-pointer text-(--text-color-dark) ${
                         order.status === "pending"
                           ? "bg-yellow-600"
-                          : "bg-green-500"
+                          : "bg-green-600"
                       }`}
                       onClick={(e) => {
                         e.preventDefault();
@@ -576,13 +580,15 @@ const OrderSystemApp = () => {
                         Bestellung: {orderToUpdate.orderNumber}
                       </h3>
                       <p className="col-span-1 text-end">
-                        {formatTime(orderToUpdate.createdAt)} Uhr
+                        {" "}
+                        Bestellt: {formatTime(orderToUpdate.createdAt)} Uhr
                       </p>
                     </div>
                     <div className="grid grid-cols-1">
                       <OrderComponent
                         orderToUpdate={orderToUpdate}
                         setOrderToUpdate={setOrderToUpdate}
+                        which="updateOrder"
                       />
                     </div>
                   </>

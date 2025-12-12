@@ -41,7 +41,7 @@ const NavBar = () => {
     >
       <div className="container mx-auto flex justify-between items-center px-6 py-1">
         <h1
-          className={`text-(length:--font-size-headline) text-[var(--primary-color-100)] font-bold font-(family-name:--style-font) tracking-wider cursor-pointer`}
+          className={`sm:text-(length:--font-size-headline) text-[var(--primary-color-100)] font-bold font-(family-name:--style-font) tracking-wider cursor-pointer`}
           onClick={(e) => {
             e.preventDefault();
             navigate("/");

@@ -516,7 +516,7 @@ const OrderSystemApp = () => {
 
       {/* main Container */}
 
-      <div className="flex flex-col items-center justify-start h-[80vh] sm:h-[83vh] w-full p-2 mx-auto ">
+      <div className="flex flex-col items-center justify-start h-[83vh]  w-full p-2 mx-auto ">
         {!isLoggedIn && <LogInReg />}
         {isLoggedIn && user && (
           <>
@@ -530,15 +530,15 @@ const OrderSystemApp = () => {
               </p>
             </div>
             {/* Seitenansicht */}
-            <div className="w-[100%]  overflow-y-auto mt-2 sm:mb-16 sm:pb-8  grid grid-cols-1 grid-rows-5 sm:grid-cols-2 sm:grid-rows-1 gap-4 ">
+            <div className="w-[100%]  overflow-y-auto mt-2 sm:mb-12 sm:pb-8  grid grid-cols-1 grid-rows-2 sm:grid-cols-2 sm:grid-rows-1 gap-4 ">
               {/* linke Seite Bestellungsliste */}
-              <div className="col-span-1 col-start-1 row-span-3 grid grid-cols-1 gap-4 max-h-[50vh] sm:max-h-[70vh] md:max-h-[80vh] overflow-y-auto  border-b pb-5 sm:border-b-0 ">
+              <div className="col-span-1 col-start-1 row-span-1 grid grid-cols-1 gap-4 max-h-[50vh] sm:max-h-[70vh] md:max-h-[80vh] overflow-y-auto  border-b pb-5 sm:border-b-0 ">
                 {ordersData &&
                   ordersData.length > 0 &&
                   ordersData.map((order) => (
                     <div
                       key={order._id}
-                      className={` grid grid-cols-2  p-4 cursor-pointer text-(--text-color-dark) ${
+                      className={` grid grid-cols-2 max-h-[150px]  p-4 cursor-pointer text-(--text-color-dark) ${
                         order.status === "pending"
                           ? "bg-yellow-600"
                           : "bg-green-600"
@@ -572,11 +572,11 @@ const OrderSystemApp = () => {
               </div>
 
               {/* rechte Seite Bestellung Einzeln im Detail */}
-              <div className="col-span-1 col-start-1 row-span-2 row-start-4 sm:col-start-2 sm:row-start-1  flex flex-col sm:border-l p-2 mt-5 max-h-[50vh] sm:max-h-[70vh] md:max-h-[80vh] pb-16 overflow-y-auto ">
+              <div className="col-span-1 col-start-1 row-span-1 row-start-2 sm:col-start-2 sm:row-start-1  flex flex-col sm:border-l p-1 sm:p-2 sm:mt-5 pb-12 max-h-[50vh] sm:max-h-[70vh] md:max-h-[80vh]  overflow-y-auto ">
                 {orderToUpdate && (
                   <>
                     <div className="grid grid-cols-2">
-                      <h3 className="font-bold mb-4 text-(length:--font-size-standard)">
+                      <h3 className="font-bold mb-1 sm:mb-4 text-(length:--font-size-standard)">
                         Bestellung: {orderToUpdate.orderNumber}
                       </h3>
                       <p className="col-span-1 text-end">

@@ -274,7 +274,7 @@ const OrderSystemApp = () => {
               </button>
             </div>
 
-            {/* input form to create a new task */}
+            {/* input form to create a new order */}
             {productsData && productsData.length > 0 && (
               <div className="w-full col-span-2 ">
                 <h3 className="font-bold  text-start pl-4 ">Getränke</h3>

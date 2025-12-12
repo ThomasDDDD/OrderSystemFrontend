@@ -38,15 +38,18 @@ const OrderComponent = ({ orderToUpdate, setOrderToUpdate, which }) => {
     }
   };
 
-  // Klick-Handler: Entfernt das erste Produkt mit dem angegebenen productName aus der neuen Bestellung
+  // Klick-Handler: Entfernt das erste Produkt mit dem angegebenen productName aus der neuen Bestellung und berichtigt den Preis
   const handleNewOrderProductClick = (productName) => {
     if (setOrderToUpdate) {
       setOrderToUpdate((prevOrder) => {
         const updatedProducts = [...prevOrder.products];
+        let updatedPrice = Number(prevOrder.price);
         let removed = false;
         const newProducts = updatedProducts.filter((product) => {
           if (!removed && product.productName === productName) {
             removed = true;
+            updatedPrice -= Number(product.productPrice); // Preis anpassen
+
             return false; // Produkt entfernen
           }
           return true; // Produkt behalten
@@ -55,6 +58,7 @@ const OrderComponent = ({ orderToUpdate, setOrderToUpdate, which }) => {
         return {
           ...prevOrder,
           products: newProducts,
+          price: updatedPrice.toFixed(2), // Preis auf 2 Dezimalstellen runden
         };
       });
     }

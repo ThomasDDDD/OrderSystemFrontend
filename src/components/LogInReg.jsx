@@ -32,7 +32,7 @@ const LogInReg = () => {
         },
         credentials: "include",
         body: JSON.stringify({
-          emailOrUsername,
+          emailOrUsername: emailOrUsername.toLowerCase(),
           password,
         }),
       });
@@ -164,7 +164,7 @@ const LogInReg = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 bg-[var(--background-second)] text-(--text-color) text-(length:--font-size-standard) font-(family-name:--standard-font) p-6 max-w-[550px] w-full mx-auto m-4 rounded-lg shadow-[1px_1px_8px_var(--shadow-color)] ">
+    <div className="flex flex-col items-center justify-center gap-1 bg-[var(--background-second)] text-(--text-color) text-(length:--font-size-standard) font-(family-name:--standard-font) px-6 py-2 max-w-[550px] w-full mx-auto m-2 rounded-lg shadow-[1px_1px_8px_var(--shadow-color)] ">
       {!isLoggedIn && waitingForVerification && (
         <h2 className="text-(length:--font-size-largerStandard) font-bold">
           Please check your postbox and click on the link to verify your email.{" "}
@@ -177,7 +177,7 @@ const LogInReg = () => {
           </h2>
           <form
             onSubmit={handleNewPassword}
-            className="flex flex-col gap-4 w-full pb-8 border-b"
+            className="flex flex-col gap-2 w-full pb-8 border-b"
           >
             <p>Email:</p>
             <input
@@ -224,17 +224,15 @@ const LogInReg = () => {
               abschicken
             </button>
           </form>
-          <div className="text-center mb-4">
-            <a
-              className="text-(--link-color) cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
-                setNewPasswordTrue(false);
-                setPassword("");
-              }}
-            >
-              zurück
-            </a>
+          <div
+            className="text-center text-(--link-color) mb-4  px-4 py-1 cursor-pointer"
+            onClick={(e) => {
+              e.preventDefault();
+              setNewPasswordTrue(false);
+              setPassword("");
+            }}
+          >
+            zurück
           </div>
         </>
       )}
@@ -250,7 +248,7 @@ const LogInReg = () => {
             </h2>
             <form
               onSubmit={handleLogIn}
-              className="flex flex-col gap-4 w-full border-b text-(length:--font-size-standard)"
+              className="flex flex-col gap-2 w-full border-b text-(length:--font-size-standard)"
             >
               {" "}
               <p>Email oder Benutzername:</p>
@@ -284,7 +282,7 @@ const LogInReg = () => {
                 Passwort vergessen?
               </a>
               <button
-                className="cursor-pointer mt-4 px-6 py-2 rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[70%] mx-auto"
+                className="cursor-pointer mt-3 px-6 py-2 rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[70%] mx-auto"
                 type="submit"
               >
                 Anmelden
@@ -306,13 +304,13 @@ const LogInReg = () => {
               </h2>
               <button
                 onClick={googleLogin}
-                className="flex items-center justify-center  cursor-pointer my-8 px-4 py-2  rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[70%] mx-auto  "
+                className="flex items-center justify-center  cursor-pointer my-4 mb-8 px-4 py-2  rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[70%] mx-auto  "
               >
                 <FcGoogle className="text-(length:--font-size-largerStandard)" />
                 <p className="w-fit pl-2 "> Mit Google anmelden</p>
               </button>
             </div>
-            <div>
+            <div className="mb-4">
               Account gelöscht? wollen Sie ihn wieder{" "}
               <a
                 className=" text-(--link-color) cursor-pointer"
@@ -337,7 +335,7 @@ const LogInReg = () => {
             </h2>
             <form
               onSubmit={handleSignUp}
-              className="flex flex-col gap-4 w-full border-b"
+              className="flex flex-col gap-2 w-full border-b"
             >
               <p>Benutzername:</p>
               <input
@@ -422,7 +420,7 @@ const LogInReg = () => {
               </h2>
               <button
                 onClick={googleLogin}
-                className="flex items-center justify-center  cursor-pointer my-8 px-4 py-2  rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[70%] mx-auto  "
+                className="flex items-center justify-center  cursor-pointer my-4 mb-8 px-4 py-2  rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[70%] mx-auto  "
               >
                 <FcGoogle className="text-(length:--font-size-largerStandard)" />
                 <p className="w-fit pl-2"> Mit Google registrieren</p>
@@ -456,22 +454,20 @@ const LogInReg = () => {
               ></input>
 
               <button
-                className="mt-4 px-6 py-2 rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[60%] mx-auto"
+                className="cursor-pointer mt-4 px-6 py-2 rounded-md bg-[var(--primary-color-100)] text-(--text-color-rev) w-[60%] mx-auto"
                 type="submit"
               >
                 Account reaktivieren
               </button>
             </form>
-            <div className="text-center mb-4">
-              <a
-                className="text-(--link-color)"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setReactivate(false);
-                }}
-              >
-                zurück
-              </a>
+            <div
+              className="text-center text-(--link-color) mb-4 px-4 py-1 cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                setReactivate(false);
+              }}
+            >
+              zurück
             </div>
           </>
         )}

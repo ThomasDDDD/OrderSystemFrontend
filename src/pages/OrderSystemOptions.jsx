@@ -119,7 +119,7 @@ const OrderSystemOptions = () => {
               </div>
 
               {/* Seitenansicht */}
-              <div className="w-[100%] overflow-y-auto mt-2 flex flex-col gap-4">
+              <div className="w-[100%] max-w-[1920px] overflow-y-auto mt-2 flex flex-col gap-4">
                 {/* Produkteinstellungen */}
                 <h2 className="text-(length:--font-size-largerStandard) font-bold font-(family-name:--style-font) pb-2 mb-4 border-b w-full">
                   Produkteinstellungen

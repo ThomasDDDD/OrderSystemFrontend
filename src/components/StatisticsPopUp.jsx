@@ -162,23 +162,24 @@ const Statistics = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {statsData.productStats.map((product) => (
-                        <tr
-                          key={product.productId}
-                          className="border-t hover:bg-gray-50"
-                        >
-                          <td className="px-4 py-2">{product.productName}</td>
-                          <td className="px-4 py-2">
-                            {product.productCategory}
-                          </td>
-                          <td className="px-4 py-2 text-right">
-                            {product.quantity}
-                          </td>
-                          <td className="px-4 py-2 text-right font-semibold">
-                            {product.revenue.toFixed(2)} €
-                          </td>
-                        </tr>
-                      ))}
+                      {statsData.productStats
+                        .sort((a, b) =>
+                          a.productCategory.localeCompare(b.productCategory)
+                        )
+                        .map((product) => (
+                          <tr key={product.productId} className="border-t ">
+                            <td className="px-4 py-2">{product.productName}</td>
+                            <td className="px-4 py-2">
+                              {product.productCategory}
+                            </td>
+                            <td className="px-4 py-2 text-right">
+                              {product.quantity}
+                            </td>
+                            <td className="px-4 py-2 text-right font-semibold">
+                              {product.revenue.toFixed(2)} €
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>

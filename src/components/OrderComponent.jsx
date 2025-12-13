@@ -1,5 +1,3 @@
-import { set } from "date-fns";
-
 const OrderComponent = ({ orderToUpdate, setOrderToUpdate, which }) => {
   // Gruppiere Produkte nach productName
   const groupedProducts =

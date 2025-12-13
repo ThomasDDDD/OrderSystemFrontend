@@ -112,7 +112,7 @@ const ProductRow = ({ product, onDelete }) => {
 
   return (
     <>
-      <div className="flex items-center justify-between gap-4 hover:bg-gray-50 p-2 rounded transition-colors">
+      <div className="flex items-center justify-between gap-4  p-2 rounded transition-colors">
         <input
           type="text"
           value={productName}

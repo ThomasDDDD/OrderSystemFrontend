@@ -132,12 +132,12 @@ const Statistics = () => {
               </div>
 
               {/* Kategorie-Übersicht */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="flex flex-wrap flex-grow gap-4 mb-6">
                 {Object.entries(statsData.categoryStats).map(
                   ([category, stats]) => (
                     <div
                       key={category}
-                      className="border rounded-md p-4 bg-[var(-background-rev)]"
+                      className="border flex-1 rounded-md p-4 bg-[var(-background-rev)] "
                     >
                       <h3 className="text-lg font-bold mb-2">{category}</h3>
                       <p className="text-sm">Anzahl: {stats.quantity}</p>

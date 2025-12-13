@@ -173,6 +173,12 @@ const CreateProductForm = ({ onProductCreated }) => {
                 <option className="bg-[var(--background-main)]" value="Sueßes">
                   Süßes
                 </option>
+                <option
+                  className="bg-[var(--background-main)]"
+                  value="Sonstige"
+                >
+                  Sonstige
+                </option>
               </select>
             </div>
 

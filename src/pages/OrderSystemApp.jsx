@@ -92,7 +92,7 @@ const OrderSystemApp = () => {
     }, 60 * 1000);
     const updateInterval = setInterval(() => {
       setReload((prev) => !prev);
-    }, 2000);
+    }, 1000);
     return () => {
       clearInterval(interval);
       clearInterval(updateInterval);
@@ -282,7 +282,7 @@ const OrderSystemApp = () => {
       {/* popUp for new Order */}
       {isLoggedIn && user && newOrderPopUp && (
         <div className="fixed inset-0 bg-[var(--background-main-90)] flex items-center justify-center z-60 px-2">
-          <div className=" w-full max-h-[97vh] overflow-auto grid grid-cols-3 p-1 gap-4 items-center justify-between bg-[var(--background-main)] text-(--text-color) border-4 rounded-md  border-(color:--text-color) shadow-md shadow-(color:--shadow-color)">
+          <div className=" w-full max-w-[1920px] max-h-[97vh] overflow-auto grid grid-cols-3 p-1 gap-4 items-center justify-between bg-[var(--background-main)] text-(--text-color) border-4 rounded-md  border-(color:--text-color) shadow-md shadow-(color:--shadow-color)">
             <div className="col-span-3 grid grid-cols-12 gap-4 px-4">
               <h2 className="text-(length:--font-size-largerStandard) col-span-11  text-center font-bold  border-b w-full">
                 Neue Bestellung
@@ -305,7 +305,7 @@ const OrderSystemApp = () => {
 
             {/* input form to create a new order */}
             {productsData && productsData.length > 0 && (
-              <div className="w-full col-span-2 ">
+              <div className="w-full col-span-2 overflow-y-auto max-h-[85vh]">
                 <h3 className="font-bold  text-start pl-4 ">Getränke</h3>
                 <div className="grid grid-cols-4 gap-4 py-3 ">
                   {productsData.map(
@@ -471,6 +471,61 @@ const OrderSystemApp = () => {
                       )
                   )}
                 </div>
+                <h3 className="font-bold  text-start pl-4 ">Sonstige</h3>
+                <div className="grid grid-cols-4 gap-4   py-3 ">
+                  {productsData.map(
+                    (product) =>
+                      product.productCategory === "Sonstige" && (
+                        <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setNewOrder({
+                              ...newOrder,
+                              products: [
+                                ...newOrder.products,
+                                {
+                                  productName: product.productName,
+                                  product: product._id,
+                                  productPrice: product.productPrice,
+                                },
+                              ],
+                              price:
+                                Number(newOrder.price) +
+                                Number(product.productPrice),
+                            });
+                          }}
+                          key={product._id}
+                          className={`border cursor-pointer relative p-2 rounded-md h-24 flex flex-col items-center justify-center ${
+                            product.imgUrl
+                              ? "bg-contain bg-center bg-no-repeat"
+                              : ""
+                          }`}
+                          style={
+                            product.imgUrl
+                              ? { backgroundImage: `url(${product.imgUrl})` }
+                              : undefined
+                          }
+                        >
+                          <div
+                            className={`absolute inset-0  transition`}
+                            style={
+                              product.productName.startsWith("Waffel", 0)
+                                ? { backgroundColor: "var(--product-1-color)" }
+                                : product.productName.startsWith("Crepe", 0)
+                                ? { backgroundColor: "var(--product-2-color)" }
+                                : { backgroundColor: "var(--product-3-color)" }
+                            }
+                          ></div>
+                          <h3 className="font-bold z-2 mb-2 text-center bg-(color:--background-main-80) px-1 rounded">
+                            {product.productName}
+                          </h3>
+                          <p className="mb-2 font-semibold z-3 text-center bg-(color:--background-main-80) px-1 rounded">
+                            Preis: {formatPrice(Number(product.productPrice))}
+                          </p>
+                        </div>
+                      )
+                  )}
+                </div>
               </div>
             )}
 
@@ -548,7 +603,7 @@ const OrderSystemApp = () => {
 
       {/* main Container */}
 
-      <div className="flex flex-col items-center justify-start h-[83vh]  w-full p-2 mx-auto ">
+      <div className="flex flex-col items-center justify-start h-[83vh]  w-full max-w-[1920px] p-2 mx-auto ">
         {!isLoggedIn && <LogInReg />}
         {isLoggedIn && user && (
           <>

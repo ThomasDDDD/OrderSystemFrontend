@@ -183,6 +183,23 @@ const OrderSystemOptions = () => {
                           />
                         ))}
                     </div>
+                    {/* Sonstige */}
+                    <div className="flex flex-col gap-4 w-[100%] p-4 ">
+                      <h3 className="text-(length:--font-size-standard) font-bold pb-2 mb-2 border-b w-full">
+                        Sonstige
+                      </h3>
+                      {productsData
+                        .filter(
+                          (product) => product.productCategory === "Sonstige"
+                        )
+                        .map((product) => (
+                          <ProductRow
+                            key={product._id}
+                            product={product}
+                            onDelete={handleDeleteProduct}
+                          />
+                        ))}
+                    </div>
                   </>
                 )}
               </div>

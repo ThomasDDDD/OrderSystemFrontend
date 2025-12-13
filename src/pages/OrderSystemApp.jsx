@@ -85,7 +85,7 @@ const OrderSystemApp = () => {
     }, 60 * 1000);
     const updateInterval = setInterval(() => {
       setReload((prev) => !prev);
-    }, 3000);
+    }, 2000);
     return () => {
       clearInterval(interval);
       clearInterval(updateInterval);
@@ -208,7 +208,7 @@ const OrderSystemApp = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (user && isLoggedIn) {
+    if (user && isLoggedIn && orderToUpdate) {
       const updateOrder = async () => {
         try {
           const respone = await fetch(
@@ -229,7 +229,7 @@ const OrderSystemApp = () => {
             console.log("Update Order failed!");
           } else {
             console.log("Update Order successfully!");
-            setReload(!reload);
+            // setReload(!reload);
           }
         } catch (error) {
           console.log(error);
@@ -239,13 +239,38 @@ const OrderSystemApp = () => {
     }
   }, [orderToUpdate]);
 
-  /* debugging Log */
-
-  // useEffect(() => {
-  //console.log(productsData);
-  //   console.log(ordersData);
-  //   console.log(orderToUpdate);
-  // }, [productsData, ordersData, orderToUpdate]);
+  useEffect(() => {
+    if (orderToUpdate) {
+      const reloadedOrder = ordersData.find(
+        (order) => order._id === orderToUpdate._id
+      );
+      if (reloadedOrder) {
+        const mixedUpdatedProducts = orderToUpdate.products.map((prod) => {
+          if (prod.status === "completed") {
+            console.log("intern completed", prod);
+            return prod;
+          } else if (prod.status === "pending") {
+            console.log("internpending", prod);
+            const completedUpdatedProduct = reloadedOrder.products.find(
+              (p) => p._id === prod._id && p.status === "completed"
+            );
+            if (completedUpdatedProduct) {
+              console.log("extern completed", completedUpdatedProduct);
+              return completedUpdatedProduct;
+            } else {
+              return prod;
+            }
+          }
+        });
+        setOrderToUpdate({
+          ...orderToUpdate,
+          products: mixedUpdatedProducts,
+        });
+      } else {
+        setOrderToUpdate(null);
+      }
+    }
+  }, [ordersData]);
 
   return (
     <div className="bg-[var(--background-main)] text-(--text-color) min-h-screen relative pb-16 ">

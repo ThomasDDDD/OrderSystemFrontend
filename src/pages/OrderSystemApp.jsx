@@ -247,15 +247,12 @@ const OrderSystemApp = () => {
       if (reloadedOrder) {
         const mixedUpdatedProducts = orderToUpdate.products.map((prod) => {
           if (prod.status === "completed") {
-            console.log("intern completed", prod);
             return prod;
           } else if (prod.status === "pending") {
-            console.log("internpending", prod);
             const completedUpdatedProduct = reloadedOrder.products.find(
               (p) => p._id === prod._id && p.status === "completed"
             );
             if (completedUpdatedProduct) {
-              console.log("extern completed", completedUpdatedProduct);
               return completedUpdatedProduct;
             } else {
               return prod;

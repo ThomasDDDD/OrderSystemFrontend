@@ -155,6 +155,34 @@ const OrderSystemApp = () => {
             setOrdersData(data.orders);
             setOrderMaxPage(data.totalPages);
             setTotalOrders(data.totalOrders);
+            if (orderToUpdate) {
+              const reloadedOrder = ordersData.find(
+                (order) => order._id === orderToUpdate._id
+              );
+              if (reloadedOrder) {
+                const mixedUpdatedProducts = orderToUpdate.products.map(
+                  (prod) => {
+                    if (product.status === "completed") {
+                      return prod;
+                    } else if (product.status === "pending") {
+                      if (
+                        reloadedOrder.products.find(
+                          (p) => p._id === prod._id && p.status === "completed"
+                        )
+                      ) {
+                        return p;
+                      } else {
+                        return prod;
+                      }
+                    }
+                  }
+                );
+                setOrderToUpdate({
+                  ...orderToUpdate,
+                  products: mixedUpdatedProducts,
+                });
+              }
+            }
           }
         } catch (error) {
           console.log(error);
@@ -242,7 +270,7 @@ const OrderSystemApp = () => {
   /* debugging Log */
 
   // useEffect(() => {
-  //   console.log(productsData);
+  //console.log(productsData);
   //   console.log(ordersData);
   //   console.log(orderToUpdate);
   // }, [productsData, ordersData, orderToUpdate]);

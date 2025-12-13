@@ -9,11 +9,18 @@ import CustomDateTimePicker from "../components/DatePicker";
 import { OrderContext } from "../context/OrderContext";
 import { se } from "date-fns/locale";
 import OrderComponent from "../components/OrderComponent";
+import Statistics from "../components/StatisticsPopUp";
 
 const OrderSystemApp = () => {
   const { user, isLoggedIn, mode } = useContext(AuthContext);
-  const { newOrderPopUp, setNewOrderPopUp, status, setStatus } =
-    useContext(OrderContext);
+  const {
+    newOrderPopUp,
+    setNewOrderPopUp,
+    status,
+    setStatus,
+    statisticsPopUp,
+    setStatisticsPopUp,
+  } = useContext(OrderContext);
 
   //! State für Products
 
@@ -535,6 +542,9 @@ const OrderSystemApp = () => {
           </div>
         </div>
       )}
+
+      {/* statistics popUp */}
+      {statisticsPopUp && <Statistics />}
 
       {/* main Container */}
 

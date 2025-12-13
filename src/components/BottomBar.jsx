@@ -5,8 +5,14 @@ import { OrderContext } from "../context/OrderContext.jsx";
 
 const BottomBar = () => {
   const { isLoggedIn } = useContext(AuthContext);
-  const { newOrderPopUp, setNewOrderPopUp, status, setStatus } =
-    useContext(OrderContext);
+  const {
+    newOrderPopUp,
+    setNewOrderPopUp,
+    status,
+    setStatus,
+    statisticsPopUp,
+    setStatisticsPopUp,
+  } = useContext(OrderContext);
 
   return (
     <nav
@@ -68,11 +74,11 @@ const BottomBar = () => {
               className="w-[25%]  md:w-[20%] text-center cursor-pointer px-2 py-1 border border-[var(--text-color)]"
               onClick={(e) => {
                 e.preventDefault();
-                console.log("irgendwas auslösen 4");
+                setStatisticsPopUp(!statisticsPopUp);
               }}
             >
               <a className="hover:underline text-(length:--font-size-sub-nav) font-(family-name:--style-font) transition-all duration-500 ease-in-out hover:text-[var(--accent-color-100)]">
-                leer
+                Statistic
               </a>
             </li>
           </ul>
